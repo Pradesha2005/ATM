@@ -1,136 +1,74 @@
-# ATM Machine with Transaction History
-# Initialize ATM with Account Number, PIN, and Balance
+Problem Statement:
+The ATM project aims to simulate a basic Automated Teller Machine (ATM) system, enabling users to perform key banking operations such as balance inquiry, cash withdrawal, deposit, and fund transfer. The system requires users to authenticate securely using their account number and PIN before accessing any functionalities. After successful authentication, users can check their account balance, withdraw funds (subject to balance limits), deposit money, and transfer funds between accounts. The system will also display a transaction history, showing recent activities like deposits and withdrawals. Error handling is incorporated to manage invalid inputs or failed transactions, ensuring that the system operates smoothly and securely. The primary goal is to replicate essential ATM operations in a secure and user-friendly software environment.
 
-class ATM:
-    def __init__(self):
-        self.transaction_history = []  # Initialize transaction history list
+ Algorithm for ATM Machine with Transaction History:
 
-    def ini(self, accountnumber, pin, balance):
-        self.an = accountnumber
-        self.pin = pin 
-        self.bl = balance
-   
-    def verify(self, a, b):
-        if a == self.an and b == self.pin:
-            return True
-        return False
+1. Initialize the ATM Class:
+   - Create an ATM class that includes account number, PIN, balance, and a transaction history list.
+   - Define methods for initialization, authentication, balance checking, cash withdrawal, deposit, PIN change, and transaction history.
+2. Define '__init__' Method:
+   - Initialize the ATM object with an empty list for transaction history.
+3. Define 'ini' Method:
+   - Set up account details with account number, PIN, and balance.
+4. Define 'verify' Method:
+   - This method takes an account number and PIN as inputs and checks if they match the stored values.
+5. Define 'balance' Method:
+   - Return the current balance of the user.
+6. Define 'withdraw' Method:
+   - Check if the withdrawal amount is greater than the current balance.
+   - If yes, print an error message indicating insufficient balance.
+   - If no, subtract the amount from the balance and add a record to the transaction history.
+   - Return the updated balance.
+7. Define 'deposit' Method:
+   - Add the deposit amount to the current balance and update the transaction history.
+   - Return the updated balance.
+8. Define 'view_transaction_history' Method:
+   - If no transactions have been made, print a message indicating that.
+   - Otherwise, print the list of transactions.
 
-    def balance(self):
-        return self.bl
+ ATM Menu Algorithm:
 
-    def withdraw(self, amt):
-        if amt > self.bl:
-            print("Insufficient balance!")
-        else:
-            self.bl -= amt  # Deduct the amount from balance
-            self.transaction_history.append(f"Withdrew: {amt}")  # Record transaction
-            print(f"Withdrawn {amt} successfully.")
-        return self.bl
+1. Display ATM Menu Options:
+   - Display options for balance check, cash withdrawal, deposit, PIN change, transaction history, and exit.
+2. User Input for Option Selection:
+   - Prompt the user to select an option from the menu.
+   - Based on the selected option, proceed with the corresponding functionality.
+3. Check Balance:
+   - Prompt the user for the account number and PIN.
+   - Verify the credentials using the `verify` method.
+   - If verified, display the current balance using the `balance` method.
+   - If not, show an error message.
+4. Cash Withdrawal:
+   - Prompt the user for the account number and PIN.
+   - Verify the credentials.
+   - If verified, prompt for the amount to withdraw.
+   - Perform withdrawal and display the updated balance.
+   - Record the transaction in the history.
+   - If credentials are incorrect, show an error message.
+5. Cash Deposit:
+   - Prompt the user for the account number and PIN.
+   - Verify the credentials.
+   - If verified, prompt for the deposit amount.
+   - Perform deposit and display the updated balance.
+   - Record the transaction in the history.
+   - If credentials are incorrect, show an error message.
+6. PIN Change:
+   - Prompt the user for the account number and PIN.
+   - Verify the credentials.
+   - If verified, prompt the user for a new PIN and update it.
+   - Record the PIN change in the transaction history.
+   - If credentials are incorrect, show an error message.
+7. View Transaction History:
+   - Prompt the user for the account number and PIN.
+   - Verify the credentials.
+   - If verified, display the transaction history.
+   - If no transactions, display an appropriate message.
+   - If credentials are incorrect, show an error message.
+8. Exit:
+   - If the user selects the exit option, end the program.
+9. Invalid Option Handling:
+   - If the user selects an invalid option, display an error message and prompt them to try again.
 
-    def deposit(self, amt):
-        self.bl += amt  # Add the amount to balance
-        self.transaction_history.append(f"Deposited: {amt}")  # Record transaction
-        print(f"Deposited {amt} successfully.")
-        return self.bl
+Conclusion for the ATM Machine Project:
 
-    def view_transaction_history(self):
-        if not self.transaction_history:
-            print("No transactions yet.")
-        else:
-            print("Transaction History:")
-            for transaction in self.transaction_history:
-                print(transaction)
-
-
-# Creating multiple ATM accounts
-a1 = ATM()
-a1.ini(1123456789, 1234, 1500)
-
-a2 = ATM()
-a2.ini(1223456789, 2134, 3000)
-
-a3 = ATM()
-a3.ini(1233456789, 3124, 2350)
-
-# List of accounts
-accounts = [a1, a2, a3]
-
-# ATM menu
-while True:
-    print("\n\tATM Menu")
-    print("1. Check Balance")
-    print("2. Cash Withdrawal")
-    print("3. Cash Deposit")
-    print("4. PIN Change")
-    print("5. Transaction History")
-    print("6. Exit")
-
-    n = int(input("Enter the option: "))
-
-    if n == 1:  # Check Balance
-        a = int(input("Enter account number: "))
-        b = int(input("Enter PIN number: "))
-        for i in accounts:
-            if i.verify(a, b):
-                print("Verified Successfully!")
-                print("Current Balance:", i.balance())
-                break
-        else:
-            print("Invalid Account number or PIN! Please verify.")
-
-    elif n == 2:  # Cash Withdrawal
-        a = int(input("Enter account number: "))
-        b = int(input("Enter PIN number: "))
-        for i in accounts:
-            if i.verify(a, b):
-                amt = float(input("Enter the amount: "))
-                print("Withdraw successful.")
-                print("Current Balance:", i.withdraw(amt))
-                break
-        else:
-            print("Invalid Account number or PIN! Please verify.")
-
-    elif n == 3:  # Cash Deposit
-        a = int(input("Enter account number: "))
-        b = int(input("Enter PIN number: "))
-        for i in accounts:
-            if i.verify(a, b):
-                amt = float(input("Enter the amount to deposit: "))
-                print("Deposit successful.")
-                print("Current Balance:", i.deposit(amt))
-                break
-        else:
-            print("Invalid Account number or PIN! Please verify.")
-
-    elif n == 4:  # PIN Change
-        a = int(input("Enter account number: "))
-        b = int(input("Enter PIN number: "))
-        for i in accounts:
-            if i.verify(a, b):
-                new_pin = int(input("Enter new PIN: "))
-                i.pin = new_pin
-                i.transaction_history.append("PIN changed.")
-                print("PIN changed successfully!")
-                break
-        else:
-            print("Invalid Account number or PIN! Please verify.")
-
-    elif n == 5:  # Transaction History
-        a = int(input("Enter account number: "))
-        b = int(input("Enter PIN number: "))
-        for i in accounts:
-            if i.verify(a, b):
-                i.view_transaction_history()
-                break
-        else:
-            print("Invalid Account number or PIN! Please verify.")
-
-    elif n == 6:  # Exit
-        print("Exiting...")
-        break
-
-    else:
-        print("Invalid option! Please try again.")
-
-
-
+This project successfully simulates basic ATM functions like balance inquiry, cash withdrawal, deposit, PIN change, and transaction history. By ensuring secure user authentication and handling errors such as insufficient balance, it provides a practical and user-friendly experience. The project demonstrates key concepts in secure transactions, data management, and system design. It can be further improved with more advanced features and integrations, making it a strong foundation for future banking-related projects.
